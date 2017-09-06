@@ -7,6 +7,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AirConnectionRepository extends CrudRepository<AirConnection, Long> {
-	List<AirConnection> findByDestination(@Param("destination") String destination);
+public interface AirConnectionRepository extends
+		CrudRepository<AirConnection, Long> {
+	List<AirConnection> findByDestination(
+			@Param("destination") String destination);
 }

@@ -25,7 +25,6 @@ import app.fetch.DataFetch;
 @EnableJpaRepositories(basePackages = "app.repository")
 @EntityScan
 @ComponentScan("app")
-
 public class Application implements CommandLineRunner {
 
 	private static final Logger log = LoggerFactory
@@ -33,7 +32,7 @@ public class Application implements CommandLineRunner {
 
 	@Autowired
 	private DataFetch dataFetch;
-	
+
 	public static void main(String args[]) {
 		SpringApplication.run(Application.class);
 	}
@@ -41,7 +40,7 @@ public class Application implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		dataFetch.initAirports();
-		dataFetch.saveAirports(); //zapis portow do bazy
+		dataFetch.saveAirports(); // zapis portow do bazy
 		dataFetch.initConnection();
 	}
 }

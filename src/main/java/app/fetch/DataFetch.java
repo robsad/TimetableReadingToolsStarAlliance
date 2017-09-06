@@ -24,45 +24,44 @@ import app.repository.*;
 
 @Component
 public class DataFetch {
-	
+
 	@Autowired
 	private AirportsDataRepository airportsDataRepository;
 	@Autowired
 	private ConnectionScanService connectionScanService;
-	
+
 	private List<AirportsData> airports;
 
 	public void initAirports() {
-		AirportListReader airportListReader = new AirportListReader();	
+		AirportListReader airportListReader = new AirportListReader();
 		airports = airportListReader.fetchDestinations();
 	}
-	
+
 	public void saveAirports() {
 		airportsDataRepository.save(airports);
 		System.out.println("Saved Airports to database");
 		saveToFileAirports();
 	}
-		
-	public void initConnection() {
-		//connectionScanService.makeQueue(airports); // gdy scan
-		//connectionScanService.scanAndSave();   // gdy scan
-		connectionScanService.readConnectionsFromDatabase();   //gdy do pliku
-	}
-	
-	public void saveToFileAirports() {
-		 try
-	      {
-	         FileOutputStream fileOut = new FileOutputStream("starAllianceAirports.cnt");
-	         ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(fileOut));
-	         out.writeObject(airports);
-	         out.close();
-	         fileOut.close();
-	      }catch(IOException i)
-	      {
-	    	  System.out.println("IOException (saving Airports): " + i);
-	      }
-		 System.out.println("Saved Airports to file");
-	}
-	
-}
 
+	public void initConnection() {
+		connectionScanService.makeQueue(airports);
+		connectionScanService.scanAndSave();
+		connectionScanService.readConnectionsFromDatabase();
+	}
+
+	public void saveToFileAirports() {
+		try {
+			FileOutputStream fileOut = new FileOutputStream(
+					"starAllianceAirports.cnt");
+			ObjectOutputStream out = new ObjectOutputStream(
+					new BufferedOutputStream(fileOut));
+			out.writeObject(airports);
+			out.close();
+			fileOut.close();
+		} catch (IOException i) {
+			System.out.println("IOException (saving Airports): " + i);
+		}
+		System.out.println("Saved Airports to file");
+	}
+
+}

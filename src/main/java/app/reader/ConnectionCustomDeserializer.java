@@ -29,10 +29,8 @@ public class ConnectionCustomDeserializer extends StdDeserializer<Connection> {
 		ArrayNode wps = (ArrayNode) node.get("wps");
 		String destination = wps.get(wps.size()-1).get("id").asText();
 		wps.remove(wps.size()-1);
-		//System.out.println("DESTINATION: " + destination);
 		for (JsonNode i : wps) {
 			stopsList.add(i.get("id").asText());
-		    //System.out.println("destination: " + destination + " stop :" + i.get("id").asText());
 		    }
 		String stops = stopsList.toString();
 		ArrayNode rc = (ArrayNode) node.get("rc");

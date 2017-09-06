@@ -24,11 +24,12 @@ public class AirportListReader {
 	private RestTemplate restTemplate;
 	private MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
 	private final String URL = "http://starmap.fltmaps.com/EN/data";
-	//private final String URL = "http://onw.fltmaps.com/en/data";
+
+	// private final String URL = "http://onw.fltmaps.com/en/data";
 
 	public AirportListReader() {
 		this.restTemplate = new RestTemplate();
-		//headers.add("Host", "starmap.fltmaps.com");
+		// headers.add("Host", "starmap.fltmaps.com");
 		headers.add("Host", "onw.fltmaps.com");
 		headers.add("User-Agent",
 				"Mozilla/5.0 (Windows NT 10.0; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0");
@@ -42,11 +43,11 @@ public class AirportListReader {
 		headers.add("Content-Length", "300");
 		headers.add("Cookie", "ROUTEID=.1");
 		headers.add("DNT", "1");
-		headers.add("Connection", "keep-alive");	
+		headers.add("Connection", "keep-alive");
 	}
 
 	public List<AirportsData> fetchDestinations() {
-		String rawData = fetchFromHtml(); 
+		String rawData = fetchFromHtml();
 		return parseFromJson(rawData);
 	}
 
@@ -62,16 +63,19 @@ public class AirportListReader {
 	}
 
 	public String trimHTML(String response) {
-		return response.substring(response.indexOf("Cities\":") + 8, response.indexOf(",\"DestinationsHeading"));
+		return response.substring(response.indexOf("Cities\":") + 8,
+				response.indexOf(",\"DestinationsHeading"));
 	}
-	
+
 	private List<AirportsData> parseFromJson(String responseJson) {
 		ObjectMapper mapper = new ObjectMapper();
 		SimpleModule module = new SimpleModule();
-		module.addDeserializer(AirportsData.class, new AirportsCustomDeserializer());
+		module.addDeserializer(AirportsData.class,
+				new AirportsCustomDeserializer());
 		mapper.registerModule(module);
 		try {
-			return Arrays.asList(mapper.readValue(responseJson,AirportsData[].class));
+			return Arrays.asList(mapper.readValue(responseJson,
+					AirportsData[].class));
 		} catch (JsonParseException e) {
 			e.printStackTrace();
 			return Collections.emptyList();
@@ -81,7 +85,7 @@ public class AirportListReader {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return Collections.emptyList();
-		}	
+		}
 	}
-	
+
 }

@@ -44,7 +44,7 @@ public class ConnectionReader {
 	}
 
 	public List<Connection> fetchDestinations(String airportCode) {
-		String rawData = fetchFromHtml(airportCode); 
+		String rawData = fetchFromHtml(airportCode);
 		return parseFromJson(rawData);
 	}
 
@@ -64,25 +64,28 @@ public class ConnectionReader {
 				body, headers);
 		ResponseEntity<String> response = restTemplate.postForEntity(URL,
 				request, String.class);
-		// HttpStatus statusCode = response.getStatusCode();
 		MediaType contentType = response.getHeaders().getContentType();
 		System.out.println(contentType.toString());
-		if (contentType.equals(MediaType.valueOf("text/html;charset=utf-8"))) return trimHTML(response.getBody());
-			else return response.getBody();
+		if (contentType.equals(MediaType.valueOf("text/html;charset=utf-8")))
+			return trimHTML(response.getBody());
+		else
+			return response.getBody();
 	}
 
 	private String trimHTML(String response) {
-		return response.substring(response.indexOf("rts\":[{") + 5, response.indexOf("}</textarea>"));
+		return response.substring(response.indexOf("rts\":[{") + 5,
+				response.indexOf("}</textarea>"));
 	}
 
 	private List<Connection> parseFromJson(String responseJson) {
 		ObjectMapper mapper = new ObjectMapper();
 		SimpleModule module = new SimpleModule();
-		module.addDeserializer(Connection.class, new ConnectionCustomDeserializer());
+		module.addDeserializer(Connection.class,
+				new ConnectionCustomDeserializer());
 		mapper.registerModule(module);
-		//System.out.println(responseJson);
 		try {
-			return Arrays.asList(mapper.readValue(responseJson,Connection[].class));
+			return Arrays.asList(mapper.readValue(responseJson,
+					Connection[].class));
 		} catch (JsonParseException e) {
 			e.printStackTrace();
 			return Collections.emptyList();
@@ -92,7 +95,7 @@ public class ConnectionReader {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return Collections.emptyList();
-		}	
+		}
 	}
-	
+
 }

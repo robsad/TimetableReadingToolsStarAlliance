@@ -7,28 +7,28 @@ import javax.persistence.*;
 import app.reader.Connection;
 
 @Entity
-@NamedQuery(name="AirConnection.findAll", query="SELECT a FROM AirConnection a")
+@NamedQuery(name = "AirConnection.findAll", query = "SELECT a FROM AirConnection a")
 public class AirConnection implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	
+
 	private String airlineCode;
 
 	private String destination;
 
 	private String stops;
 
-	//bi-directional many-to-one association to Airportsdata
+	// bi-directional many-to-one association to Airportsdata
 	@ManyToOne
 	private AirportsData airportsData;
 
 	public AirConnection() {
 	}
-	
-	public AirConnection (AirportsData origin, Connection connection){
+
+	public AirConnection(AirportsData origin, Connection connection) {
 		this.airportsData = origin;
 		this.destination = connection.getDestination();
 		this.stops = connection.getStops();
@@ -74,6 +74,5 @@ public class AirConnection implements Serializable {
 	public void setAirportsData(AirportsData airportsData) {
 		this.airportsData = airportsData;
 	}
-	
-}
 
+}

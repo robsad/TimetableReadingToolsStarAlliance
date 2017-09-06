@@ -5,22 +5,22 @@ import java.io.Serializable;
 import app.repository.AirConnection;
 
 public class Connection implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private String airlinecode;
 
 	private String destination;
 
 	private String stops;
 
-	public Connection (AirConnection airConnection){
+	public Connection(AirConnection airConnection) {
 		this.destination = airConnection.getDestination();
 		this.stops = airConnection.getStops();
 		this.airlinecode = airConnection.getAirlineCode();
 	}
-	
-	public Connection (String destination, String stops, String airlinecode){
+
+	public Connection(String destination, String stops, String airlinecode) {
 		this.destination = destination;
 		this.stops = stops;
 		this.airlinecode = airlinecode;
@@ -49,9 +49,10 @@ public class Connection implements Serializable {
 	public void setStops(String stops) {
 		this.stops = stops;
 	}
-	
+
 	@Override
-	public String toString(){
-		return " to: " + this.destination + ", by: " + this.stops + ", with: " + this.airlinecode;
+	public String toString() {
+		return " to: " + this.destination + ", by: " + this.stops + ", with: "
+				+ this.airlinecode;
 	}
 }

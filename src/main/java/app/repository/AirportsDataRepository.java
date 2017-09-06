@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AirportsDataRepository extends CrudRepository<AirportsData, Long> {
+public interface AirportsDataRepository extends
+		CrudRepository<AirportsData, Long> {
 	List<AirportsData> findByCityCode(@Param("cityCode") String cityCode);
 }
