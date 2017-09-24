@@ -23,39 +23,48 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 public class AirportListReader {
 	private RestTemplate restTemplate;
 	private MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
-	private final String URL = "http://starmap.fltmaps.com/EN/data";
+	private final String URL_SA = "http://starmap.fltmaps.com/EN/data";
+	private final String URL_OW = "http://onw.fltmaps.com/en/data";
+	private String alliance;
 
-	// private final String URL = "http://onw.fltmaps.com/en/data";
-
-	public AirportListReader() {
+	public AirportListReader(String alliance) {
 		this.restTemplate = new RestTemplate();
-		// headers.add("Host", "starmap.fltmaps.com");
-		headers.add("Host", "onw.fltmaps.com");
+		System.out.println(alliance);
+		this.alliance = alliance;
+		if (alliance.equals("OneWorld")) headers.add("Host", "onw.fltmaps.com");
+		else headers.add("Host", "starmap.fltmaps.com");
 		headers.add("User-Agent",
 				"Mozilla/5.0 (Windows NT 10.0; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0");
 		headers.add("Accept", "*/*");
 		headers.add("Accept-Language", "pl,en-US;q=0.7,en;q=0.3");
 		// headers.add("Accept-Encoding", "gzip, deflate");
-		headers.add("Referer", "http://starmap.fltmaps.com/EN/");
+		if (alliance.equals("OneWorld")) headers.add("Referer", "http://onw.fltmaps.com/en/"); 
+		else headers.add("Referer", "http://starmap.fltmaps.com/EN/");
 		headers.add("Content-Type",
 				"application/x-www-form-urlencoded; charset=UTF-8");
 		headers.add("X-Requested-With", "XMLHttpRequest");
 		headers.add("Content-Length", "300");
 		headers.add("Cookie", "ROUTEID=.1");
 		headers.add("DNT", "1");
-		headers.add("Connection", "keep-alive");
+		headers.add("Connection", "keep-alive");	
 	}
 
 	public List<AirportsData> fetchDestinations() {
-		String rawData = fetchFromHtml();
+		String rawData = fetchFromHtml(); 
 		return parseFromJson(rawData);
+	}
+	
+	private String getURL() {
+		if (alliance.equals("OneWorld")) return URL_OW; 
+		return URL_SA;
 	}
 
 	private String fetchFromHtml() {
 		MultiValueMap<String, String> body = new LinkedMultiValueMap<String, String>();
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(
 				body, headers);
-		ResponseEntity<String> response = restTemplate.postForEntity(URL,
+
+		ResponseEntity<String> response = restTemplate.postForEntity(getURL(),
 				request, String.class);
 		// HttpStatus statusCode = response.getStatusCode();
 		MediaType contentType = response.getHeaders().getContentType();
@@ -63,19 +72,16 @@ public class AirportListReader {
 	}
 
 	public String trimHTML(String response) {
-		return response.substring(response.indexOf("Cities\":") + 8,
-				response.indexOf(",\"DestinationsHeading"));
+		return response.substring(response.indexOf("Cities\":") + 8, response.indexOf(",\"DestinationsHeading"));
 	}
-
+	
 	private List<AirportsData> parseFromJson(String responseJson) {
 		ObjectMapper mapper = new ObjectMapper();
 		SimpleModule module = new SimpleModule();
-		module.addDeserializer(AirportsData.class,
-				new AirportsCustomDeserializer());
+		module.addDeserializer(AirportsData.class, new AirportsCustomDeserializer());
 		mapper.registerModule(module);
 		try {
-			return Arrays.asList(mapper.readValue(responseJson,
-					AirportsData[].class));
+			return Arrays.asList(mapper.readValue(responseJson,AirportsData[].class));
 		} catch (JsonParseException e) {
 			e.printStackTrace();
 			return Collections.emptyList();
@@ -85,7 +91,7 @@ public class AirportListReader {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return Collections.emptyList();
-		}
+		}	
 	}
-
+	
 }

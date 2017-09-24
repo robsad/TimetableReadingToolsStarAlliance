@@ -19,21 +19,33 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
-@Service
 public class ConnectionReader {
 	private RestTemplate restTemplate;
 	private MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
 	private final String URL = "http://starmap.fltmaps.com/EN/destinations";
+	private final String URL_OW = "http://onw.fltmaps.com/en/destinations";
+	private String alliance;
 
-	public ConnectionReader() {
+	public ConnectionReader(String alliance) {
 		this.restTemplate = new RestTemplate();
-		headers.add("Host", "starmap.fltmaps.com");
+		this.alliance = alliance;
+		if (alliance.equals("OneWorld")) {
+			headers.add("Host", "onw.fltmaps.com");
+		}
+		else {
+			headers.add("Host", "starmap.fltmaps.com");
+		}
 		headers.add("User-Agent",
 				"Mozilla/5.0 (Windows NT 10.0; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0");
 		headers.add("Accept", "*/*");
 		headers.add("Accept-Language", "pl,en-US;q=0.7,en;q=0.3");
 		// headers.add("Accept-Encoding", "gzip, deflate");
-		headers.add("Referer", "http://starmap.fltmaps.com/EN/");
+		if (alliance.equals("OneWorld")) {
+			headers.add("Referer", "http://onw.fltmaps.com/en/"); 
+		}
+		else { 
+			headers.add("Referer", "http://starmap.fltmaps.com/EN/");
+		}
 		headers.add("Content-Type",
 				"application/x-www-form-urlencoded; charset=UTF-8");
 		headers.add("X-Requested-With", "XMLHttpRequest");
@@ -44,8 +56,15 @@ public class ConnectionReader {
 	}
 
 	public List<Connection> fetchDestinations(String airportCode) {
-		String rawData = fetchFromHtml(airportCode);
+		String rawData = fetchFromHtml(airportCode); 
 		return parseFromJson(rawData);
+	}
+	
+	private String getURL() {
+		if (alliance.equals("OneWorld")) {
+			return URL_OW; 
+		}
+		return URL;
 	}
 
 	private String fetchFromHtml(String airportCode) {
@@ -62,30 +81,29 @@ public class ConnectionReader {
 		body.add("Destinations.ShowAsList", "false");
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(
 				body, headers);
-		ResponseEntity<String> response = restTemplate.postForEntity(URL,
+		ResponseEntity<String> response = restTemplate.postForEntity(getURL(),
 				request, String.class);
+		// HttpStatus statusCode = response.getStatusCode();
 		MediaType contentType = response.getHeaders().getContentType();
 		System.out.println(contentType.toString());
-		if (contentType.equals(MediaType.valueOf("text/html;charset=utf-8")))
+		if (contentType.equals(MediaType.valueOf("text/html;charset=utf-8"))) {
 			return trimHTML(response.getBody());
-		else
-			return response.getBody();
+		}
+		return response.getBody();
 	}
 
 	private String trimHTML(String response) {
-		return response.substring(response.indexOf("rts\":[{") + 5,
-				response.indexOf("}</textarea>"));
+		return response.substring(response.indexOf("rts\":[{") + 5, response.indexOf("}</textarea>"));
 	}
 
 	private List<Connection> parseFromJson(String responseJson) {
 		ObjectMapper mapper = new ObjectMapper();
 		SimpleModule module = new SimpleModule();
-		module.addDeserializer(Connection.class,
-				new ConnectionCustomDeserializer());
+		module.addDeserializer(Connection.class, new ConnectionCustomDeserializer());
 		mapper.registerModule(module);
+		//System.out.println(responseJson);
 		try {
-			return Arrays.asList(mapper.readValue(responseJson,
-					Connection[].class));
+			return Arrays.asList(mapper.readValue(responseJson,Connection[].class));
 		} catch (JsonParseException e) {
 			e.printStackTrace();
 			return Collections.emptyList();
@@ -95,7 +113,7 @@ public class ConnectionReader {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return Collections.emptyList();
-		}
+		}	
 	}
-
+	
 }

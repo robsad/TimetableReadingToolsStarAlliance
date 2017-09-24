@@ -1,0 +1,74 @@
+http://starmap.fltmaps.com/EN/data
+
+Host: starmap.fltmaps.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0
+Accept: */*
+Accept-Language: pl,en-US;q=0.7,en;q=0.3
+Accept-Encoding: gzip, deflate
+Referer: http://starmap.fltmaps.com/EN/
+X-Requested-With: XMLHttpRequest
+Cookie: ROUTEID=.1
+DNT: 1
+Connection: keep-alive
+Content-Length: 0
+
+Cities: Array
+DestinationsHeading:"Departing from {depart.name}:"
+RoutesHeading:"Between {depart.cityOwner.name} and {arrive.cityOwner.name}:"
+LinksHeading:"More information for {depart.cityOwner.name}:"
+LinkDestinations:"Show Destinations"+
+LinkRoutes:"Show Routes"
+LinkFlights:"Show Flights"
+DestinationsEnabled:true
+RoutesEnabled:true
+FlightsEnabled:true
+Links:Array
+0:Object
+Universal:false
+Code:"LAX"
+Url:"http://www.staralliance.com/en/star-lounge-detail?loungeDetailsForAirport=LAX"
+Title:"Star Alliance Lounges - LAX"
+1:Object
+
+
+
+
+http://starmap.fltmaps.com/EN/flights
+
+Host: starmap.fltmaps.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0
+Accept: */*
+Accept-Language: pl,en-US;q=0.7,en;q=0.3
+Accept-Encoding: gzip, deflate
+Referer: http://starmap.fltmaps.com/EN/
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+X-Requested-With: XMLHttpRequest
+Content-Length: 334
+Cookie: ROUTEID=.1
+DNT: 1
+Connection: keep-alive
+
+initialSearch=
+returnFlights=
+Flights.From=Lisboa+Airport
+Flights.FromId=LIS
+Flights.FromLocationType=0
+Flights.To=Pinto+Martins+Intl+Airport
+Flights.ToId=FOR
+Flights.ToLocationType=0
+Flights.DepartingOn=01%2F03%2F2017
+Flights.ReturningOn=
+Flights.CarrierId=
+Flights.Connections=false
+Flights.CodeShares=false
+Flights.ExpandDays=false
+
+error:"NoResults"
+clearResults:true
+message:"Sorry, no flights could be found between Lisboa Airport and Pinto Martins Intl Airport on 01/03/2017."
+
+<textarea data-map-route-data="" style="display: none;">{"act":"fitBounds","bnds":[38.73,-9.13,-3.72,-38.53],"cs":false,"excess":false,"loc":"LIS","rts":[{"rc":[{"Code":"*","Strategy":"SameColour"},{"Code":"d","Strategy":"Connection"},{"Code":"c","Strategy":"CodeShare"},{"Code":"i","Strategy":"RouteType"},{"Code":"TP","Strategy":"Airline"},{"Code":"d","Strategy":"Distance"}],"wps":[{"id":"FOR"}]}]}</textarea>
+			
+			
+			
+			

@@ -7,19 +7,20 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
+
 @Entity
-@NamedQuery(name = "AirportsData.findAll", query = "SELECT a FROM AirportsData a")
+@NamedQuery(name="AirportsData.findAll", query="SELECT a FROM AirportsData a")
 public class AirportsData implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 
 	private String cityCode;
 
 	private String cityName;
-
+	
 	private String countryCode;
 
 	private Timestamp created;
@@ -30,12 +31,12 @@ public class AirportsData implements Serializable {
 
 	private Timestamp modified;
 
-	@OneToMany(mappedBy = "airportsData")
+	@OneToMany(mappedBy="airportsData")
 	private List<AirConnection> airConnections;
 
-	public AirportsData() {
+	public AirportsData(){
 	}
-
+	
 	public AirportsData(String cityCode, String cityName, String countryCode,
 			double lat, double lon) {
 		this.cityCode = cityCode;
@@ -129,10 +130,10 @@ public class AirportsData implements Serializable {
 		airConnection.setAirportsData(null);
 		return airConnection;
 	}
-
-	public String toString() {
-		return "Code: " + cityCode + ", Name: " + cityName + ", Country: "
-				+ countryCode;
+	
+	public String toString(){
+		return "Code: " + cityCode + ", Name: " + cityName + ", Country: " + countryCode;
 	}
 
 }
+
