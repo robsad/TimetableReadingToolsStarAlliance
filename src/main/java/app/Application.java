@@ -23,7 +23,7 @@ import app.tofile.SaveFromDBToFileManager;
 @EnableAutoConfiguration
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = {"app.repository"})
-@EntityScan(basePackages = {"app.repository"})
+@EntityScan(basePackages = {"app.entities"})
 @ComponentScan({"app.*"})
 public class Application implements CommandLineRunner {
 
@@ -41,7 +41,7 @@ public class Application implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		String alliance = "OneWorld"; // works with: "OneWorld" "StarAlliance"
+		String alliance = "OneWorld"; // works with: "OneWorld" "StarAlliance" "Etihad"
 		readingManager.airportsScan(alliance);
 		readingManager.saveAirportsToFile(alliance);
 		readingManager.connectionsScan(alliance);

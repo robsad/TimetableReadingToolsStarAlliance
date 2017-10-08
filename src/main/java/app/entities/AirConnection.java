@@ -1,10 +1,8 @@
-package app.repository;
+package app.entities;
 
 import java.io.Serializable;
 
 import javax.persistence.*;
-
-import app.reader.Connection;
 
 @Entity
 @NamedQuery(name="AirConnection.findAll", query="SELECT a FROM AirConnection a")

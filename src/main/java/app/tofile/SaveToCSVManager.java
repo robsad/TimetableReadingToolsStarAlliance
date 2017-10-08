@@ -8,8 +8,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
-import app.repository.AirportsData;
-import app.reader.Connection;
+import app.entities.AirportsData;
+import app.entities.Connection;
 
 @Component
 public class SaveToCSVManager {
