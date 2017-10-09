@@ -1,10 +1,10 @@
-package app.reader;
+package app.reader.deserializers;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.repository.AirportsData;
+import app.entities.AirportsData;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;

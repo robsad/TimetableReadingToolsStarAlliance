@@ -1,8 +1,6 @@
-package app.reader;
+package app.entities;
 
 import java.io.Serializable;
-
-import app.repository.AirConnection;
 
 public class Connection implements Serializable {
 	

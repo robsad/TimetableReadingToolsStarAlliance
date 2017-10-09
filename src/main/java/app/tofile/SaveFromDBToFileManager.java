@@ -11,10 +11,11 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import app.reader.Connection;
-import app.repository.AirConnection;
+
+import app.entities.AirConnection;
+import app.entities.AirportsData;
+import app.entities.Connection;
 import app.repository.AirConnectionRepository;
-import app.repository.AirportsData;
 import app.repository.AirportsDataRepository;
 
 @Component

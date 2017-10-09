@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import app.tofile.SaveToCSVManager;
-import app.repository.AirportsData;
+import app.entities.AirportsData;
 
 @Component
 public class ReadingManager {
