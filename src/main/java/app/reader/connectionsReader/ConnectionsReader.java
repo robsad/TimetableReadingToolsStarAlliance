@@ -60,7 +60,6 @@ public abstract class ConnectionsReader {
 				request, String.class);
 		// HttpStatus statusCode = response.getStatusCode();
 		MediaType contentType = response.getHeaders().getContentType();
-		System.out.println(contentType.toString());
 		if (contentType.equals(MediaType.valueOf("text/html;charset=utf-8"))) {
 			return trimHTML(response.getBody());
 		}

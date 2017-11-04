@@ -3,6 +3,8 @@ package app.tofile;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -20,12 +22,18 @@ public class SaveToCSVManager {
 
 	public void saveAirportsToFile(String alliance,List<AirportsData> airportsDataList) {
 		this.airportsDataList = airportsDataList;
-		airportsDataToFile(alliance+"_airports.csv");
+		String timeStamp = getTimeStamp();
+		airportsDataToFile(alliance+"_airports"+timeStamp+".csv");
 	}
 	
 	public void saveConnectionsToFile(String alliance,Map<String, List<Connection>> connectionsByOrigin) {
 		this.connectionsByOrigin = connectionsByOrigin;
-		connectionsToFile(alliance+"_connections.csv");
+		String timeStamp = getTimeStamp();
+		connectionsToFile(alliance+"_connections"+timeStamp+".csv");
+	}
+	
+	private String getTimeStamp() {
+		return new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
 	}
 
 	private void airportsDataToFile(String filename) {

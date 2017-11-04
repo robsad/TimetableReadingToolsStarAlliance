@@ -44,6 +44,7 @@ public class ConnectionScanService {
 			connectionsReader = new ConnectionsReaderStarAlliance();
 		}
 		AirportsData requestAirport;
+		airConnectionRepository.deleteAll();
 		do {
 			requestAirport = queue.peek();
 			if (requestAirport != null) {
@@ -65,6 +66,10 @@ public class ConnectionScanService {
 		return connectionsByOrigin;
 	}
 
+	private List<Connection> getConnectionsFromServer(String requestAirportCode) {
+		return connectionsReader.fetchDestinations(requestAirportCode);
+	}
+	
 	private void saveAirConnections(AirportsData origin,
 			List<Connection> connections) {
 		List<AirConnection> airConnections = new LinkedList<>();
@@ -72,10 +77,6 @@ public class ConnectionScanService {
 			airConnections.add(new AirConnection(origin, connection));
 		}
 		airConnectionRepository.save(airConnections);
-	}
-
-	private List<Connection> getConnectionsFromServer(String requestAirportCode) {
-		return connectionsReader.fetchDestinations(requestAirportCode);
 	}
 
 	private void showConnections(AirportsData origin,
